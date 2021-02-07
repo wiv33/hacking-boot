@@ -9,7 +9,7 @@ group = "org.psawesome"
 version = "1.0-SNAPSHOT"
 
 java {
-    sourceCompatibility = org.gradle.api.JavaVersion.VERSION_15
+    sourceCompatibility = JavaVersion.VERSION_15
 //    targetCompatibility = org.gradle.api.JavaVersion.VERSION_15
 }
 
