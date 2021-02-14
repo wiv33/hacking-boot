@@ -13,4 +13,8 @@ public class PsCartItem {
   private PsItem item;
   private int quantity;
 
+  public PsCartItem(PsItem item) {
+    this.item = item;
+    this.quantity = 1;
+  }
 }

@@ -1,9 +1,11 @@
 package org.psawesome;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,9 +15,14 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class PsCart {
 
   @Id
   private String id;
   private List<PsCartItem> cartItemList;
+
+  public PsCart(String id) {
+    this(id, Collections.emptyList());
+  }
 }

@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * DATE: 2021-02-10 수요일 23:42
  */
 
+@SpringBootTest
 class PsItemRepositoryTest {
 
   @Autowired
