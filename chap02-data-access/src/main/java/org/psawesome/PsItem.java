@@ -1,6 +1,8 @@
 package org.psawesome;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -15,4 +17,9 @@ public class PsItem {
   private String id;
   private String name;
   private double price;
+
+  public PsItem(String name, double price) {
+    this.name = name;
+    this.price = price;
+  }
 }
