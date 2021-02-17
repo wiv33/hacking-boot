@@ -26,7 +26,7 @@ public class DataAccessApplication {
 class RepositoryDatabaseLoader {
 
   @Bean
-  CommandLineRunner init(BlockingPsItemRepository blockingPsItemRepository) {
+  CommandLineRunner initRepositoryData(BlockingPsItemRepository blockingPsItemRepository) {
     return args -> {
       blockingPsItemRepository.save(new PsItem("alf alarm clock", 19.99));
       blockingPsItemRepository.save(new PsItem("Smurf TV tray", 24.99));
@@ -37,7 +37,7 @@ class RepositoryDatabaseLoader {
 @Component
 class TemplateDatabaseLoader {
   @Bean
-  CommandLineRunner init(MongoOperations mongoOperations) {
+  CommandLineRunner initTemplateData(MongoOperations mongoOperations) {
     return args -> {
       mongoOperations.save(new PsItem("ps awesome", 33.33));
       mongoOperations.save(new PsItem("we are the", 26.11));

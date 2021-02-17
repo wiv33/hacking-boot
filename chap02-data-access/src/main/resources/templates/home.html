@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Inventory Management</title>
+</head>
+<body>
+<h2>Inventory Management</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item : ${items}">
+    <td th:text="${item.id}"></td>
+    <td th:text="${item.id}"></td>
+    <td th:text="${item.id}"></td>
+    <td>
+      <form method="post" th:action="@{'/add/' + ${item.id}}">
+        <input type="submit" value="add to cart">
+      </form>
+    </td>
+    <td>
+      <form th:method="delete" th:action="@{'/delete/' + ${item.id}}">
+        <input type="submit" value="Delete">
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
