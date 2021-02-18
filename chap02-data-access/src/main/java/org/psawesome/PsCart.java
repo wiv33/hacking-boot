@@ -20,7 +20,7 @@ public class PsCart {
 
   @Id
   private String id;
-  private List<PsCartItem> cartItemList;
+  private List<PsCartItem> cartItems;
 
   public PsCart(String id) {
     this(id, Collections.emptyList());
