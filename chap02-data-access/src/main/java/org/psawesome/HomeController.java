@@ -1,12 +1,15 @@
 package org.psawesome;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Mono;
+
+import java.util.Objects;
 
 /**
  * package: org.psawesome
@@ -15,6 +18,7 @@ import reactor.core.publisher.Mono;
  */
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class HomeController {
 
 
@@ -32,25 +36,37 @@ public class HomeController {
 
   @PostMapping("/add/{id}")
   Mono<String> addToCart(@PathVariable String id) {
+    log.info("addToCart id : {}", id);
     return this.psCartRepository.findById("My Cart")
             .defaultIfEmpty(new PsCart("My Cart"))
+            .log()
             .flatMap(cart -> cart.getCartItems().stream()
                     .filter(cartItem -> cartItem.getItem()
                             .getId().equals(id))
                     .findAny()
                     .map(cartItem -> {
                       cartItem.increment();
+                      log.info("increment cart id : {}", cartItem.getItem().getId());
                       return Mono.just(cart);
                     })
                     .orElseGet(() -> this.psItemRepository.findById(id)
+                            .log("orElse new CartItem")
                             .map(PsCartItem::new)
                             .map(cartItem -> {
+                              assert Objects.nonNull(cart.getCartItems());
+
+                              log.info("cart size is : {}", cart.getCartItems().size());
+
+                              assert Objects.nonNull(cartItem);
+
                               cart.getCartItems().add(cartItem);
                               return cart;
                             })
                     )
             )
+            .log()
             .flatMap(this.psCartRepository::save)
             .thenReturn("redirect:/");
   }
+
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +24,6 @@ public class PsCart {
   private List<PsCartItem> cartItems;
 
   public PsCart(String id) {
-    this(id, Collections.emptyList());
+    this(id, new ArrayList<>());
   }
 }
