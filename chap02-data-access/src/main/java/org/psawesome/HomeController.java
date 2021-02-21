@@ -25,6 +25,8 @@ public class HomeController {
   private final PsItemRepository psItemRepository;
   private final PsCartRepository psCartRepository;
 
+  private final CartService cartService;
+
 
   @GetMapping
   Mono<Rendering> home() {
@@ -37,35 +39,7 @@ public class HomeController {
   @PostMapping("/add/{id}")
   Mono<String> addToCart(@PathVariable String id) {
     log.info("addToCart id : {}", id);
-    return this.psCartRepository.findById("My Cart")
-            .defaultIfEmpty(new PsCart("My Cart"))
-            .log()
-            .flatMap(cart -> cart.getCartItems().stream()
-                    .filter(cartItem -> cartItem.getItem()
-                            .getId().equals(id))
-                    .findAny()
-                    .map(cartItem -> {
-                      cartItem.increment();
-//                      log.info("increment cart id : {}", cartItem.getItem().getId());
-                      return Mono.just(cart);
-                    })
-                    .orElseGet(() -> this.psItemRepository.findById(id)
-                            .log("orElse new CartItem")
-                            .map(PsCartItem::new)
-                            .map(cartItem -> {
-                              assert Objects.nonNull(cart.getCartItems());
-
-//                              log.info("cart size is : {}", cart.getCartItems().size());
-
-                              assert Objects.nonNull(cartItem);
-
-                              cart.getCartItems().add(cartItem);
-                              return cart;
-                            })
-                    )
-            )
-            .log()
-            .flatMap(this.psCartRepository::save)
+    return cartService.addToCart("My Cart", id)
             .thenReturn("redirect:/");
   }
 
