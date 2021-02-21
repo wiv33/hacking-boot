@@ -46,7 +46,7 @@ public class HomeController {
                     .findAny()
                     .map(cartItem -> {
                       cartItem.increment();
-                      log.info("increment cart id : {}", cartItem.getItem().getId());
+//                      log.info("increment cart id : {}", cartItem.getItem().getId());
                       return Mono.just(cart);
                     })
                     .orElseGet(() -> this.psItemRepository.findById(id)
@@ -55,7 +55,7 @@ public class HomeController {
                             .map(cartItem -> {
                               assert Objects.nonNull(cart.getCartItems());
 
-                              log.info("cart size is : {}", cart.getCartItems().size());
+//                              log.info("cart size is : {}", cart.getCartItems().size());
 
                               assert Objects.nonNull(cartItem);
 
