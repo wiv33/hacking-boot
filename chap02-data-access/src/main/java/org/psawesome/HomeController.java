@@ -2,14 +2,15 @@ package org.psawesome;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
  * package: org.psawesome
@@ -24,6 +25,7 @@ public class HomeController {
 
   private final PsItemRepository psItemRepository;
   private final PsCartRepository psCartRepository;
+  private final ReactiveFluentMongoOperations mongoOperations;
 
   private final CartService cartService;
 
@@ -41,6 +43,21 @@ public class HomeController {
     // log.info("addToCart id : {}", id);
     return cartService.addToCart("My Cart", id)
             .thenReturn("redirect:/");
+  }
+
+  @GetMapping("/search")
+  Mono<Rendering> search(@RequestParam(required = false) String name,
+                         @RequestParam(required = false) String description,
+                         @RequestParam boolean useAnd) {
+    return Mono.just(Rendering.view("home.html")
+            .modelAttribute("results", searchByExample(name, description, useAnd))
+            .build());
+  }
+
+  private Flux<PsItem> searchByExample(String name, String description, boolean useAnd) {
+    return mongoOperations.query(PsItem.class)
+            .matching(query(where("TV tray").is(name).and("smrf").is(description)))
+            .all();
   }
 
 }
