@@ -3,3 +3,14 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+
+  devtools:
+    restart:
+      exclude: static/**,public/**
+
+  thymeleaf:
+    cache: false
+
+logging:
+  level:
+    web: DEBUG
