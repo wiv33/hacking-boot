@@ -21,19 +21,29 @@ public class CartService {
 
   Mono<PsCart> addToCart(String cartId, String id) {
     return this.psCartRepository.findById(cartId)
+            .log("foundCart")
             .defaultIfEmpty(new PsCart(cartId))
+            .log("emptyCart")
             .flatMap(cart -> cart.getCartItems().stream()
-            .filter(cartItem -> cartItem.getItem().getId().equals(id))
-            .findAny()
-            .map(cartItem -> {
-              cartItem.increment();
-              return Mono.just(cart);
-            })
-            .orElseGet(() ->
-              this.psItemRepository.findById(id)
-                      .map(PsCartItem::new)
-                      .doOnNext(cartItem -> cart.getCartItems().add(cartItem))
-                      .map(cartItem -> cart)))
-            .flatMap(this.psCartRepository::save);
+                    .filter(cartItem -> cartItem.getItem().getId().equals(id))
+                    .findAny()
+                    .map(cartItem -> {
+                      cartItem.increment();
+                      return Mono.just(cart).log("newCartItem");
+                    })
+                    .orElseGet(() ->
+                            this.psItemRepository.findById(id)
+                                    .log("fetchItem")
+                                    .map(PsCartItem::new)
+                                    .log("cartItem")
+                                    .map(cartItem -> {
+                                      cart.getCartItems().add(cartItem);
+                                      return cart;
+                                    })
+                                    .log("addedCartItem")))
+            .log("cartWithAnotherItem")
+            .flatMap(this.psCartRepository::save)
+            .log("savedCart");
   }
+
 }

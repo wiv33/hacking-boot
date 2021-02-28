@@ -33,7 +33,8 @@ public class HomeController {
   @GetMapping
   Mono<Rendering> home() {
     return Mono.just(Rendering.view("home.html")
-            .modelAttribute("items", this.psItemRepository.findAll())
+            .modelAttribute("items", this.psItemRepository.findAll()
+                    .doOnNext(System.out::println))
             .modelAttribute("cart", this.psCartRepository.findById("My Cart")
                     .defaultIfEmpty(new PsCart("My Cart"))).build());
   }
