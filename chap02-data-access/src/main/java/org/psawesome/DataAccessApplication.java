@@ -1,13 +1,12 @@
 package org.psawesome;
 
-import de.flapdoodle.embed.mongo.Command;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoOperationsExtensionsKt;
 import org.springframework.stereotype.Component;
+import reactor.blockhound.BlockHound;
 
 /**
  * package: org.psawesome
