@@ -6,4 +6,5 @@ dependencies {
     implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
     implementation("org.springframework.boot:spring-boot-devtools")
     implementation("org.mongodb:mongodb-driver-sync")
+    implementation("io.projectreactor.tools:blockhound:1.0.3.RELEASE")
 }

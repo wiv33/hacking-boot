@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 @SpringBootApplication
 public class DataAccessApplication {
   public static void main(String[] args) {
+    BlockHound.install();
     SpringApplication.run(DataAccessApplication.class, args);
   }
 
