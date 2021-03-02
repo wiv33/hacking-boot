@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
 import reactor.blockhound.BlockHound;
 
 /**
@@ -16,7 +17,12 @@ import reactor.blockhound.BlockHound;
 @SpringBootApplication
 public class DataAccessApplication {
   public static void main(String[] args) {
-    BlockHound.install();
+//    BlockHound.install();
+
+    BlockHound.builder()
+            .allowBlockingCallsInside(TemplateEngine.class.getCanonicalName(), "process")
+            .install();
+
     SpringApplication.run(DataAccessApplication.class, args);
   }
 
