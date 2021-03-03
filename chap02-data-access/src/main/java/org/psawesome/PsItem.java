@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Id;
  * DATE: 2021-02-08 월요일 02:08
  */
 @Data
+@AllArgsConstructor
 public class PsItem {
 
   @Id

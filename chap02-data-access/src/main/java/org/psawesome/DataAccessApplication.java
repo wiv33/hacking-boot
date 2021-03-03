@@ -19,9 +19,11 @@ public class DataAccessApplication {
   public static void main(String[] args) {
 //    BlockHound.install();
 
+/*
     BlockHound.builder()
             .allowBlockingCallsInside(TemplateEngine.class.getCanonicalName(), "process")
             .install();
+*/
 
     SpringApplication.run(DataAccessApplication.class, args);
   }
