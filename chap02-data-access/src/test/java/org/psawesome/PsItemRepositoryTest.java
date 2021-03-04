@@ -19,6 +19,7 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static reactor.core.publisher.Mono.when;
 
 /**
@@ -42,12 +43,15 @@ class PsItemRepositoryTest {
 
   @Test
   void testInitRepository() {
-    Assertions.assertNotNull(psItemRepository);
+    assertNotNull(psItemRepository);
   }
 
 
   @BeforeEach
   void setUp() {
+    psItemRepository = mock(PsItemRepository.class);
+    cartRepository = mock(PsCartRepository.class);
+
     var sampleItem = new PsItem("item1", "TV tray", 19.99);
     var sampleCartItem = new PsCartItem(sampleItem);
     var sampleCart = new PsCart("My Cart", Collections.singletonList(sampleCartItem));
@@ -59,5 +63,10 @@ class PsItemRepositoryTest {
     when(cartRepository.save(any(PsCart.class))).thenReturn(Mono.just(sampleCart));
 
     inventoryService = new CartService(psItemRepository, cartRepository);
+  }
+
+  @Test
+  void testAddItemToEmptyCartSHouldProduceOneCartItem() {
+
   }
 }
