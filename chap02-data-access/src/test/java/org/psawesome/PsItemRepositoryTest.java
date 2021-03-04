@@ -13,9 +13,11 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.util.Collections;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -58,6 +60,8 @@ class PsItemRepositoryTest {
 
 //    Define mock integrations provided
 //    by yours collaborators
+    Assertions.assertNotNull(cartRepository);
+
     when(cartRepository.findById(anyString())).thenReturn(Mono.empty());
     when(psItemRepository.findById(anyString())).thenReturn(Mono.just(sampleItem));
     when(cartRepository.save(any(PsCart.class))).thenReturn(Mono.just(sampleCart));
@@ -66,7 +70,17 @@ class PsItemRepositoryTest {
   }
 
   @Test
-  void testAddItemToEmptyCartSHouldProduceOneCartItem() {
+  void testAddItemToEmptyCartShouldProduceOneCartItem() {
+    inventoryService.addToCart("My Cart", "item1")
+            .as(StepVerifier::create)
+            .expectNextMatches(cart -> {
+              assertThat(cart.getCartItems()).extracting(PsCartItem::getQuantity)
+                      .containsExactlyInAnyOrder(1);
 
+              assertThat(cart.getCartItems()).extracting(PsCartItem::getItem)
+                      .containsExactly(new PsItem("item1", "TV tray", 19.99));
+              return true;
+            })
+            .verifyComplete();
   }
 }
