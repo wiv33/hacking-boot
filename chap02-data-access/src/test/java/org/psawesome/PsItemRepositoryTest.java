@@ -83,4 +83,18 @@ class PsItemRepositoryTest {
             })
             .verifyComplete();
   }
+
+  @Test
+  void alternativeWayToTest() {
+    StepVerifier.create(
+            inventoryService.addToCart("My Cart", "item1")
+    ).expectNextMatches(cart -> {
+      assertThat(cart.getCartItems()).extracting(PsCartItem::getQuantity)
+              .containsExactlyInAnyOrder(1);
+
+      assertThat(cart.getCartItems()).extracting(PsCartItem::getItem)
+              .containsExactly(new PsItem("item1", "TV tray", 19.99));
+      return true;
+    }).verifyComplete();
+  }
 }
