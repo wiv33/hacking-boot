@@ -2,6 +2,7 @@ package org.psawesome;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.data.annotation.Id;
 
@@ -12,6 +13,7 @@ import org.springframework.data.annotation.Id;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PsItem {
 
   @Id
