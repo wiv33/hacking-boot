@@ -7,6 +7,9 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -30,11 +33,14 @@ public class LoadingWebSiteIntegrationTest {
             .expectStatus()
             .isOk()
             .expectBody(String.class)
-            .consumeWith(exchangeResult ->
-                    assertAll(
-                            () -> assertNotNull(exchangeResult.getResponseBody()),
-                            () -> Assertions.assertTrue(exchangeResult.getResponseBody().contains("<form method=\"post\" action=\"/add/"))
-                    )
+            .consumeWith(exchangeResult -> {
+                      final String responseBody = exchangeResult.getResponseBody();
+                      assert Objects.nonNull(responseBody);
+                      assertAll(
+                              () -> assertTrue(responseBody.contains("<form method=\"post\" action=\"/add/")),
+                              () -> assertTrue(responseBody.contains("<form method=\"post\" action=\"/delete/"))
+                      );
+                    }
             );
   }
 }
