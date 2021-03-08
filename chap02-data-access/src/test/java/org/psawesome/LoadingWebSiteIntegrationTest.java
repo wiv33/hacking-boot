@@ -12,6 +12,7 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.http.MediaType.TEXT_HTML;
 
 /**
  * package: org.psawesome
@@ -32,6 +33,7 @@ public class LoadingWebSiteIntegrationTest {
             .exchange()
             .expectStatus()
             .isOk()
+            .expectHeader().contentType(TEXT_HTML)
             .expectBody(String.class)
             .consumeWith(exchangeResult -> {
                       final String responseBody = exchangeResult.getResponseBody();
