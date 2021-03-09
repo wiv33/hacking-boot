@@ -19,7 +19,14 @@ public class PsItem {
   @Id
   private String id;
   private String name;
+  private String description;
   private double price;
+
+  public PsItem(String name, String description, double price) {
+    this.name = name;
+    this.description = description;
+    this.price = price;
+  }
 
   public PsItem(String name, double price) {
     this.name = name;
