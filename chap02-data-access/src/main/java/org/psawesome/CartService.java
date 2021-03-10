@@ -2,9 +2,8 @@ package org.psawesome;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.Objects;
 
 /**
  * package: org.psawesome
@@ -46,4 +45,11 @@ public class CartService {
             .log("savedCart");
   }
 
+  public Flux<PsItem> getInventory() {
+    return psItemRepository.findAll();
+  }
+
+  public Mono<PsCart> getCart(String my_cart) {
+    return psCartRepository.findById(my_cart);
+  }
 }
