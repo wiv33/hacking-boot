@@ -14,8 +14,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CartService {
 
-  private final PsItemRepository psItemRepository;
-  private final PsCartRepository psCartRepository;
+  protected final PsItemRepository psItemRepository;
+  protected final PsCartRepository psCartRepository;
 
 
   Mono<PsCart> addToCart(String cartId, String id) {
