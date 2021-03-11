@@ -21,13 +21,10 @@ public class BlockHoundSleepTest {
                 Thread.sleep(1000);
                 return Mono.just(aLong);
               } catch (InterruptedException e) {
-<<<<<<< HEAD
                 /*
                 * 출력되지 않음
                 * cancel() 호출
                 * */
-=======
->>>>>>> a83ea4a56a014cd68686224d64d20d1c1d0b2d02
 //              if Not used BlockHound : java.lang.AssertionError: expectation "expectErrorMatches" failed (expected: onError(); actual: onNext(0))
                 System.out.println("ps error : " + e.getMessage());
                 Assertions.assertTrue(e.getMessage().contains("failed (expected: onError(); actual: onNext(0))"));
