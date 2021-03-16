@@ -9,7 +9,7 @@ public class AltInventoryServiceImpl extends CartService {
 
   @Override
   Mono<PsCart> addToCart(String cartId, String itemId) {
-    final PsCart myCart = super.psCartRepository.findById(cartId)
+    var myCart = super.psCartRepository.findById(cartId)
             .defaultIfEmpty(new PsCart(cartId))
             .block();
 
@@ -17,10 +17,7 @@ public class AltInventoryServiceImpl extends CartService {
     return myCart.getCartItems().stream()
             .filter(cartItem -> cartItem.getItem().getId().equals(itemId))
             .findAny()
-            .map(cartItem -> {
-              cartItem.increment();
-              return Mono.just(cartItem);
-            })
+            .map(this::incrementCartItem)
             .orElseGet(() -> this.psItemRepository.findById(itemId)
                     .map(PsCartItem::new)
                     .map(cartItem -> {
@@ -29,5 +26,10 @@ public class AltInventoryServiceImpl extends CartService {
                     })
             ).flatMap(cart -> this.psCartRepository.save(myCart));
 
+  }
+
+  private Mono<PsCartItem> incrementCartItem(PsCartItem cartItem) {
+    cartItem.increment();
+    return Mono.just(cartItem);
   }
 }
