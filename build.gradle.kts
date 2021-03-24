@@ -1,8 +1,10 @@
+// Import task types
+
 plugins {
     java
     id("org.springframework.boot") version "2.3.6.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
-    id("com.palantir.docker") version "0.22.1"
+    id("com.bmuschko.docker-remote-api") version "6.7.0"
 }
 
 group = "org.psawesome"
@@ -24,7 +26,7 @@ allprojects {
 subprojects {
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
-    apply(plugin = "com.palantir.docker")
+    apply(plugin = "com.bmuschko.docker-remote-api")
 
     configurations {
         compileOnly {
@@ -43,6 +45,15 @@ subprojects {
     tasks.withType(Test::useJUnitPlatform)
 
     docker {
+        url.set("https://192.168.59.103:2376")
+        certPath.set(File(System.getProperty("user.home"), ".boot2docker/certs/boot2docker-vm"))
 
+        registryCredentials {
+            url.set("https://index.docker.io/v1/")
+            username.set("bmuschko")
+            password.set("pwd")
+            email.set("benjamin.muschko@gmail.com")
+        }
     }
+
 }
