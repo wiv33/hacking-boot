@@ -14,3 +14,8 @@ spring:
 logging:
   level:
     web: DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details: always
